@@ -17,24 +17,18 @@ public class Student {
     private Date dob;
     private boolean gender;
     private int semester;
-    private String PhoneNumber;
-    private String IDcard;
-    private String address;
     private String email;
     private String major;
 
     public Student() {
     }
 
-    public Student(String stuid, String name, Date dob, boolean gender, int semester, String PhoneNumber, String IDcard, String address, String email, String major) {
+    public Student(String stuid, String name, Date dob, boolean gender, int semester, String email, String major) {
         this.stuid = stuid;
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.semester = semester;
-        this.PhoneNumber = PhoneNumber;
-        this.IDcard = IDcard;
-        this.address = address;
         this.email = email;
         this.major = major;
     }
@@ -79,30 +73,6 @@ public class Student {
         this.semester = semester;
     }
 
-    public String getPhoneNumber() {
-        return PhoneNumber;
-    }
-
-    public void setPhoneNumber(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
-    }
-
-    public String getIDcard() {
-        return IDcard;
-    }
-
-    public void setIDcard(String IDcard) {
-        this.IDcard = IDcard;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -121,8 +91,9 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "stuid=" + stuid + ", name=" + name + ", dob=" + dob + ", gender=" + gender + ", semester=" + semester + ", PhoneNumber=" + PhoneNumber + ", IDcard=" + IDcard + ", address=" + address + ", email=" + email + ", major=" + major + '}';
+        return "Student{" + "stuid=" + stuid + ", name=" + name + ", dob=" + dob + ", gender=" + gender + ", semester=" + semester + ", email=" + email + ", major=" + major + '}';
     }
+
     
     
 }
