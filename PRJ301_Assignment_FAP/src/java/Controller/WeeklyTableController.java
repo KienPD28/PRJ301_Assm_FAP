@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.SlotDB;
+import Entity.Session;
 import Entity.Slot;
 import Util.DateHelper;
 import Util.DateTime;
@@ -15,6 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
@@ -34,7 +36,13 @@ public class WeeklyTableController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String user = request.getParameter("lid");
         String yearString = request.getParameter("year");
+        HttpSession session = request.getSession();
+        session.setAttribute("username", user);
+        List<Session> listSessionByLid = (List<Session>) session.getAttribute("sessionbyLid");
+        List<Session> listSessionByStuid = (List<Session>) session.getAttribute("sessionbyStuid");
+        
         int year = Year.now().getValue();
         if(yearString != null){
             year = Integer.parseInt(yearString);
@@ -49,14 +57,19 @@ public class WeeklyTableController extends HttpServlet {
         }
         
         int index = DateHelper.IndexByWeeks(list, week);
-        List<SessionDate> sessionDate = list.get(index).getListsessionDate();
+        List<SessionDate> showDateInWeek = list.get(index).getListsessionDate();
         SlotDB dbslot = new SlotDB();
         List<Slot> slots = dbslot.getAllSlot();
+        
+        
+        
+        request.setAttribute("listSessionByLid", listSessionByLid);
+        request.setAttribute("listSessionByStuid", listSessionByStuid);
         request.setAttribute("slots", slots);
         request.setAttribute("selectedW", week);
         request.setAttribute("selectedY", year);
         request.setAttribute("listDateTime", list);
-        request.setAttribute("sessionDate", sessionDate);
+        request.setAttribute("showDateInWeek", showDateInWeek);
         
         request.getRequestDispatcher("FapTable/TimeTable.jsp").forward(request, response);
     } 

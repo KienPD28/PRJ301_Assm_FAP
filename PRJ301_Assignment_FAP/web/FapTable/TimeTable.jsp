@@ -50,26 +50,26 @@
                 <div class="col-md-12">
                     <form action="weeklyTable" method="POST">
                         <ol class="Navigation">
-<!--                            Role for Teacher-->
+                            <!--Role for Teacher-->
                             <c:if test="${sessionScope.account.isTeacher == true}">
-                            <li>
-                                <span class="content_link">
-                                    <a href="LecturersView.jsp">Home</a>&nbsp;|&nbsp;
-                                    <b>View Schedule</b
-                                    <h2>Lecturers For ${sessionScope.lec.email} (${sessionScope.lec.lname})</h2>
-                                </span>
-                            </li>
+                                <li>
+                                    <span class="content_link">
+                                        <a href="LecturersView.jsp">Home</a>&nbsp;|&nbsp;
+                                        <b>View Schedule</b
+                                        <h2>Lecturers For ${sessionScope.lec.email} (${sessionScope.lec.lname})</h2>
+                                    </span>
+                                </li>
                             </c:if>
-                            
-<!--                            Role for Student-->
+
+                            <!--Role for Student-->
                             <c:if test="${sessionScope.account.isTeacher == false}">
-                            <li>
-                                <span class="content_link">
-                                    <a href="StudentView.jsp">Home</a>&nbsp;|&nbsp;
-                                    <b>View Schedule</b
-                                    <h2>Student For ${sessionScope.stu.email} (${sessionScope.stu.name})</h2>
-                                </span>
-                            </li>
+                                <li>
+                                    <span class="content_link">
+                                        <a href="StudentView.jsp">Home</a>&nbsp;|&nbsp;
+                                        <b>View Schedule</b
+                                        <h2>Student For ${sessionScope.stu.email} (${sessionScope.stu.name})</h2>
+                                    </span>
+                                </li>
                             </c:if>
                         </ol>
 
@@ -113,8 +113,85 @@
                                 <c:forEach items="${requestScope.slots}" var="sl">
                                 <tr>
                                     <td>${sl.slname}</td>
+                                    <c:forEach items="${requestScope.showDateInWeek}" var="i">
+                                    <!--Role for Lecturers-->
+                                        <c:if test="${sessionScope.account.isTeacher == true}">
+                                            <td>
+                                                <c:forEach items="${requestScope.listSessionByLid}" var="ses">
+                                                    <c:if test="${ses.date eq i.formatDate() and ses.slid.slid eq sl.slid}">
+                                                        <a href="details?seid=${ses.seid}">${ses.gid.subid.subid}</a><br/>
+                                                        at
+                                                        ${ses.rid.rname} 
+                                                        </br>
 
+                                                        <c:choose>
+                                                            <c:when test="${empty ses}">
+                                                                -
+                                                            </c:when>
+                                                            <c:otherwise>
 
+                                                                <c:if test="${ses.isTaken != null and ses.isTaken eq false}">
+                                                                    <font color="red">(not yet)</font></br>
+                                                                    <div class="time_content">
+                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                    </div>
+
+                                                                </c:if>   
+                                                                <c:if test="${ses.isTaken}">
+                                                                    <font color="green">(attended)</font></br>
+                                                                    <div class="time_content">
+                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                    </div>
+                                                                </c:if> 
+
+                                                                <a href="attendance?id=${ses.seid}">
+                                                                    <c:if test="${ses.isTaken}">Edit</c:if>
+                                                                    <c:if test="${!ses.isTaken}">Take</c:if>
+                                                                    </a>
+
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                        </c:if>
+                                        <!--Role for Student-->
+                                        <c:if test="${sessionScope.account.isTeacher == false}">
+                                            <td>
+                                                <c:forEach items="${requestScope.listSessionByStuid}" var="ses">
+                                                    <c:if test="${ses.date eq i.formatDate() and ses.slid.slid eq sl.slid}">
+                                                        <a href="details?seid=${ses.seid}">${ses.gid.subid.subid}</a><br/>
+                                                        at
+                                                        ${ses.rid.rname} 
+                                                        </br>
+
+                                                        <c:choose>
+                                                            <c:when test="${empty ses}">
+                                                                -
+                                                            </c:when>
+                                                            <c:otherwise>
+
+                                                                <c:if test="${ses.isTaken != null and ses.isTaken eq false}">
+                                                                    <font color="red">(not yet)</font></br>
+                                                                    <div class="time_content">
+                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                    </div>
+
+                                                                </c:if>   
+                                                                <c:if test="${ses.isTaken}">
+                                                                    <font color="green">(attended)</font></br>
+                                                                    <div class="time_content">
+                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                    </div>
+                                                                </c:if> 
+
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                        </c:if>    
+                                    </c:forEach>
                                 </tr>
                             </c:forEach>
                             </tr>

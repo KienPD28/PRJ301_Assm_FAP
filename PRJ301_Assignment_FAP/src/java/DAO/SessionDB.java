@@ -216,5 +216,12 @@ public class SessionDB extends DBContext{
         return list;
     }
     
+    public static void main(String[] args) {
+        SessionDB db = new SessionDB();
+        List<Session> list = db.getSessionByLid("L01");
+        for (Session s : list) {
+            System.out.println(s);
+        }
+    }
     
 }

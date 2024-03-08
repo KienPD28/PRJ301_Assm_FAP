@@ -35,6 +35,11 @@ public class Slot {
     public void setSlname(String slname) {
         this.slname = slname;
     }
+
+    @Override
+    public String toString() {
+        return "Slot{" + "slid=" + slid + ", slname=" + slname + '}';
+    }
     
     
     
