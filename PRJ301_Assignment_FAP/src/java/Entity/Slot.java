@@ -32,7 +32,7 @@ public class Slot {
         return slname;
     }
 
-    public void setSlname(String Slname) {
+    public void setSlname(String slname) {
         this.slname = slname;
     }
     
