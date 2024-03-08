@@ -5,6 +5,8 @@
 
 package Controller;
 
+import DAO.SlotDB;
+import Entity.Slot;
 import Util.DateHelper;
 import Util.DateTime;
 import Util.SessionDate;
@@ -48,7 +50,9 @@ public class WeeklyTableController extends HttpServlet {
         
         int index = DateHelper.IndexByWeeks(list, week);
         List<SessionDate> sessionDate = list.get(index).getListsessionDate();
-        
+        SlotDB dbslot = new SlotDB();
+        List<Slot> slots = dbslot.getAllSlot();
+        request.setAttribute("slots", slots);
         request.setAttribute("selectedW", week);
         request.setAttribute("selectedY", year);
         request.setAttribute("listDateTime", list);
