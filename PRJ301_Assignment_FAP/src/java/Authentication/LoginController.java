@@ -48,8 +48,8 @@ public class LoginController extends HttpServlet {
         SessionDB sessionDB = new SessionDB();
         List<Session> sessionbyLid = sessionDB.getSessionByLid(username);
         List<Session> sessionbyStuid = sessionDB.getSessionBySid(username);
-        request.setAttribute("sessionbyLid", sessionbyLid);
-        request.setAttribute("sessionbyStuid", sessionbyStuid);
+        session.setAttribute("sessionbyLid", sessionbyLid);
+        session.setAttribute("sessionbyStuid", sessionbyStuid);
         LecturersDB lecturer = new LecturersDB();
         StudentDB student = new StudentDB();
         Lecturers lec = lecturer.getLecturersById(username);
