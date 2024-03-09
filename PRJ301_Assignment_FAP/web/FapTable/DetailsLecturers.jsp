@@ -11,46 +11,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <style>
-            
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f0f0f0;
-                margin: 0;
-                padding: 0;
-            }
-            h1 {
-                color: #333;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                padding: 8px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-            tr:hover {
-                background-color: #ddd;
-            }
-            a {
-                text-decoration: none;
-                color: #007bff;
-            }
-        </style>
+        <link rel="stylesheet" href="./css/detailsLecturers.css"/>
     </head>
     <body>
         <h1><span>FPT University Academic Portal</span></h1>
-        <a href="weeklyTable">Back</a> | <h3>User detail</h3>
+        <div class="content_block">
+            <a href="weeklyTable">Back | User detail</a> 
+        </div>
+        
 
         <table>
             <tbody>
-                
-                
                 
                 <c:set value="${requestScope.inforLecturers}" var="info"></c:set>
                     <tr align="left">
@@ -63,7 +34,9 @@
                 </tr>
                 <tr align="left">
                     <td>Image</td>
-                    <td></td>
+                    <td>
+                        <img src="./image/Lecturers.png" alt="Lecturers Image">
+                    </td>
                 </tr>
                 <tr align="left">
                     <td>Email</td>

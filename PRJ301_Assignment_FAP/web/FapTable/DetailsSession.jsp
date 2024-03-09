@@ -11,80 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
-    h1 {
-        color: #333;
-        font-size: 30px; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-    }
-    table {
-        font-size: 15px; 
-        background-color: #fff; 
-        border-collapse: collapse;
-        width: 80%; 
-        margin-left: 10%; 
-        border: 1px solid #ccc; 
-    }
-    th, td {
-        padding: 5px; 
-        text-align: left; 
-        border-bottom: 1px solid #ddd; 
-        border-left-width: 0px; 
-        border-right-width: 0px;
-    }
-    th {
-        background-color: orange; 
-        text-transform: uppercase; 
-        font-weight: normal; 
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2; 
-    }
-    tr:hover {
-        background-color: #ddd; 
-    }
-    a {
-        text-decoration: none;
-        color: #007bff;
-    }
-   
-    .header_content {
-        color: blue;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .Navigation .content_link {
-        text-decoration: none;
-        padding-left: 100px;
-    }
-    .time_content {
-        border: 1px solid #ccc;
-        padding: 1px;
-        border-radius: 5px;
-        width: fit-content;
-        background-color: #ff81006e;
-    }
-    .listStudent_content {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        padding-left: 40px;
-    }
-</style>
+        <link rel="stylesheet" href="./css/detailsSesion.css"/>
 
     </head>
     <body>
         <h1><span>FPT University Academic Portal</span></h1>
-        <a href="weeklyTable">Time Table</a> | <h3>Activity details</h3>
+        <a href="weeklyTable">Time Table | Activity details </a> 
 
         <table>
             <tbody>
