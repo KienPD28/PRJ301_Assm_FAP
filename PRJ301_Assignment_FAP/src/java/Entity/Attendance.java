@@ -14,6 +14,7 @@ public class Attendance {
     private int aid;
     private Session seid;
     private Student stuid;
+    private Group gid;
     private boolean isPresent;
     private String description;
     private Date dateTime;
@@ -21,10 +22,11 @@ public class Attendance {
     public Attendance() {
     }
 
-    public Attendance(int aid, Session seid, Student stuid, boolean isPresent, String description, Date dateTime) {
+    public Attendance(int aid, Session seid, Student stuid, Group gid, boolean isPresent, String description, Date dateTime) {
         this.aid = aid;
         this.seid = seid;
         this.stuid = stuid;
+        this.gid = gid;
         this.isPresent = isPresent;
         this.description = description;
         this.dateTime = dateTime;
@@ -54,6 +56,14 @@ public class Attendance {
         this.stuid = stuid;
     }
 
+    public Group getGid() {
+        return gid;
+    }
+
+    public void setGid(Group gid) {
+        this.gid = gid;
+    }
+
     public boolean isIsPresent() {
         return isPresent;
     }
@@ -80,7 +90,9 @@ public class Attendance {
 
     @Override
     public String toString() {
-        return "Attendance{" + "aid=" + aid + ", seid=" + seid + ", stuid=" + stuid + ", isPresent=" + isPresent + ", description=" + description + ", dateTime=" + dateTime + '}';
+        return "Attendance{" + "aid=" + aid + ", seid=" + seid + ", stuid=" + stuid + ", gid=" + gid + ", isPresent=" + isPresent + ", description=" + description + ", dateTime=" + dateTime + '}';
     }
+
+    
 
 }

@@ -3,24 +3,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Mar 9, 2024, 2:14:36 PM
+    Created on : Mar 9, 2024, 2:13:21 PM
     Author     : DELL
 */
 
 table {
     width: 100%;
     border-collapse: collapse;
+    border: 1px solid #dddddd;
 }
 th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
-th {
-    background-color: #ffa500;
+.header_row td {
+    background-color: #ffa500; /* This will make the header row cells orange */
 }
 img {
-    height: 146px;
+    height: 145px;
     width: 111px;
     border: 0px;
 }

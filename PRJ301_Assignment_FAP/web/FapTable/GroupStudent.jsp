@@ -8,39 +8,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Student Table</title>
-    <link rel="stylesheet" href="./css/groupStudent.css"/>
-</head>
-<body>
-        
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Index</th>
-                <th>Image</th>
-                <th>Roll Student</th>
-                <th>Full Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${requestScope.studentGroup}" var="st" varStatus="status">
+    <head>
+        <meta charset="UTF-8">
+        <title>Student Table</title>
+        <link rel="stylesheet" href="./css/groupStudent.css"/>
+    </head>
+    <body>
+        <h1><span>FPT University Academic Portal</span></h1>
+
+        <table>
+            <thead>
                 <tr>
-                    <td>${status.index + 1}</td>
-                    <td>
-                        <center>
-                            <img src="./image/student.jpg" alt="Student Image">
-                        </center>
-                    </td>
-                    <td>${st.stuid}</td>
-                    <td>${st.name}</td>
+                    <th>Index</th>
+                    <th>Image</th>
+                    <th>Roll Student</th>
+                    <th>Full Name</th>
                 </tr>
-                
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <c:forEach items="${requestScope.studentGroup}" var="st" varStatus="status">
+                    <tr>
+                        <td>${status.index + 1}</td>
+                        <td>
+                <center>
+                    <img src="./image/student.jpg" alt="Student Image">
+                </center>
+            </td>
+            <td>${st.stuid}</td>
+            <td>${st.name}</td>
+        </tr>
+
+    </c:forEach>
+</tbody>
+</table>
 
 </body>
 </html>

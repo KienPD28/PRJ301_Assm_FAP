@@ -9,6 +9,7 @@ import Entity.Lecturers;
 import Entity.Room;
 import Entity.Session;
 import Entity.Slot;
+import Entity.Student;
 import Entity.Subject;
 import Entity.TimeSlot;
 import java.sql.Date;
@@ -17,12 +18,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author DELL
  */
-public class SessionDB extends DBContext{
+public class SessionDB extends DBContext {
+
     public List<Session> getAllSession() {
         List<Session> list = new ArrayList();
         GroupDB group = new GroupDB();
@@ -120,7 +124,7 @@ public class SessionDB extends DBContext{
         }
         return ses;
     }
-    
+
     public List<Session> getSessionByLid(String username) {
         List<Session> list = new ArrayList();
         GroupDB group = new GroupDB();
@@ -215,13 +219,44 @@ public class SessionDB extends DBContext{
         }
         return list;
     }
+
+    public List<Student> getStudentInSession(int seid) {
+        List<Student> list = new ArrayList<>();
+        try {
+            String sql = "SELECT \n"
+                    + "    s.stuid,\n"
+                    + "    s.[name] \n"
+                    + "FROM \n"
+                    + "    Student s \n"
+                    + "INNER JOIN \n"
+                    + "    Enrollment e ON s.stuid = e.stuid \n"
+                    + "INNER JOIN \n"
+                    + "    [Group] g ON g.gid = e.gid \n"
+                    + "INNER JOIN \n"
+                    + "    Session les ON les.gid = g.gid \n"
+                    + "WHERE \n"
+                    + "    les.seid = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, seid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Student student = new Student();
+                student.setStuid(rs.getString("stuid"));
+                student.setName(rs.getString("name"));
+                list.add(student);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
     
     public static void main(String[] args) {
         SessionDB db = new SessionDB();
-        List<Session> list = db.getSessionByLid("L01");
-        for (Session s : list) {
+        List<Student> list = db.getStudentInSession(1);
+        for (Student s : list) {
             System.out.println(s);
         }
     }
-    
+
 }
