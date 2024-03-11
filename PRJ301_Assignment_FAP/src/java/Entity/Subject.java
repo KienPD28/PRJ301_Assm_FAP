@@ -76,6 +76,11 @@ public class Subject {
         this.prerequisite = prerequisite;
     }
 
+    @Override
+    public String toString() {
+        return "Subject{" + "subid=" + subid + ", subname=" + subname + ", term=" + term + ", credits=" + credits + ", department=" + department + ", prerequisite=" + prerequisite + '}';
+    }
+
     
     
 }

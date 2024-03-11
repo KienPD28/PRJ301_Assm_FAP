@@ -65,6 +65,11 @@ public class Group {
     public void setLid(Lecturers lid) {
         this.lid = lid;
     }
+
+    @Override
+    public String toString() {
+        return "Group{" + "gid=" + gid + ", gname=" + gname + ", subid=" + subid + ", stuid=" + stuid + ", lid=" + lid + '}';
+    }
     
     
 }

@@ -4,6 +4,7 @@
     Author     : DELL
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,11 +106,10 @@
             <div class="mt-2">
                 <div class="lecturer-section">
                     <h2>Lecturer Section</h2>
+                    <c:set value="${sessionScope.account}" var="a"></c:set>
                     <ul>
                         <li><a href="weeklyTable" id="styleHref">View Weekly timetable</a> (Lịch Dạy)</li>
-                        <li><a href="#" id="styleHref">Take Attendance</a> (Sửa điểm danh)</li>
-                        <li><a href="#" id="styleHref">Views Attendance</a> (Báo cáo điểm danh)</li>
-                        <li><a href="#" id="styleHref">Mark Report</a> (Báo cáo điểm)</li>
+                        <li><a href="viewsubject?id=${a.username}&isTeacher=${a.isTeacher}" id="styleHref">Views Attendance</a> (Báo cáo điểm danh)</li>
                     </ul>
                 </div>
             </div>

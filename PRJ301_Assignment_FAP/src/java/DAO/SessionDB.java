@@ -239,7 +239,7 @@ public class SessionDB extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, seid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Student student = new Student();
                 student.setStuid(rs.getString("stuid"));
                 student.setName(rs.getString("name"));
@@ -250,11 +250,121 @@ public class SessionDB extends DBContext {
         }
         return list;
     }
-    
+
+    //View Attendance Report
+    public List<Session> getOnlyGroupIdsByLid(String lid) {
+        List<Session> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT gid\n"
+                    + "FROM [dbo].[Session]\n"
+                    + "WHERE lid = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, lid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Session session = new Session();
+                GroupDB db = new GroupDB();
+                String gid = rs.getString("gid");
+                session.setGid(db.getGroupByID(gid));
+                list.add(session);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+
+    public List<Session> getGroupIDbyStuid(String stuid) {
+        List<Session> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT se.gid \n"
+                    + "FROM Session se \n"
+                    + "JOIN Enrollment e ON se.gid = e.gid \n"
+                    + "WHERE e.stuid = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, stuid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Session session = new Session();
+                GroupDB db = new GroupDB();
+                String gid = rs.getString("gid");
+                session.setGid(db.getGroupByID(gid));
+                list.add(session);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<Session> getSessionByStudentIdAndGroupId(String username, String id) {
+        List<Session> list = new ArrayList();
+        GroupDB group = new GroupDB();
+        LecturersDB lec = new LecturersDB();
+        TimeSlotDB tslot = new TimeSlotDB();
+        RoomDB room = new RoomDB();
+        SlotDB slot = new SlotDB();
+        SubjectDB subject = new SubjectDB();
+
+        try {
+            String sql = "SELECT \n"
+                    + "  se.seid, \n"
+                    + "  se.rid, \n"
+                    + "  se.[Date], \n"
+                    + "  se.gid, \n"
+                    + "  se.isTaken, \n"
+                    + "  se.lid, \n"
+                    + "  se.Tid, \n"
+                    + "  se.subid, \n"
+                    + "  se.Slid \n"
+                    + "FROM \n"
+                    + "  [Session] se \n"
+                    + "INNER JOIN \n"
+                    + "  Enrollment e \n"
+                    + "  ON se.gid = e.gid  \n"
+                    + "INNER JOIN \n"
+                    + "  Student s \n"
+                    + "  ON s.stuid = e.stuid\n"
+                    + "WHERE \n"
+                    + "  s.stuid = ?\n"
+                    + "  AND se.gid = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int seid = rs.getInt("seid");
+                String gid = rs.getString("gid");
+                int Slid = rs.getInt("Slid");
+                int Tid = rs.getInt("Tid");
+                String rid = rs.getString("rid");
+                Date date = rs.getDate("date");
+                String subid = rs.getString("subid");
+                String lid = rs.getString("lid");
+                boolean isTaken = rs.getBoolean("isTaken");
+
+                Group gr = group.getGroupByID(gid);
+                Lecturers l = lec.getLecturersById(lid);
+                Room r = room.getRoomById(rid);
+                TimeSlot time = tslot.getTimeSlotbyid(Tid);
+                Slot s = slot.getSlotBySlotId(Slid);
+                Subject sub = subject.getSubjectById(subid);
+
+                Session session = new Session(seid, gr, s, time, r, sub, date, l, isTaken);
+                list.add(session);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         SessionDB db = new SessionDB();
-        List<Student> list = db.getStudentInSession(1);
-        for (Student s : list) {
+        List<Session> list = db.getGroupIDbyStuid("HE176719");
+        for (Session s : list) {
             System.out.println(s);
         }
     }

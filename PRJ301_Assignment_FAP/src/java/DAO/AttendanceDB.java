@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author DELL
  */
 public class AttendanceDB extends DBContext {
-    
+
     public static void main(String[] args) {
         AttendanceDB db = new AttendanceDB();
         List<Attendance> list = db.getAtteandanceBySeid(1);
@@ -99,17 +99,22 @@ public class AttendanceDB extends DBContext {
             ps_delete.setInt(1, seid);
             ps_delete.executeUpdate();
 
-            String sql_insert = "INSERT INTO [dbo].[Attendance] ([seid], [stuid], [isPresent], [Description], [DateTime]) \n"
-                    + "VALUES (?, ?, ?, ?, GETDATE())";
-            PreparedStatement ps_insert = connection.prepareStatement(sql_insert);
             for (Attendance a : list) {
+                String sql_insert = "INSERT INTO [dbo].[Attendance]\n"
+                        + "           ([seid]\n"
+                        + "           ,[stuid]\n"
+                        + "           ,[isPresent]\n"
+                        + "           ,[Description]\n"
+                        + "           ,[DateTime])\n"
+                        + "     VALUES\n"
+                        + "           (?,?,?,?,GETDATE())";
+                PreparedStatement ps_insert = connection.prepareStatement(sql_insert);
                 ps_insert.setInt(1, seid);
                 ps_insert.setString(2, a.getStuid().getStuid());
                 ps_insert.setBoolean(3, a.isIsPresent());
                 ps_insert.setString(4, a.getDescription());
-                ps_insert.addBatch();
+                ps_insert.executeUpdate();
             }
-            ps_insert.executeBatch();
 
             String sql_update = "UPDATE [dbo].[Session] SET [isTaken] = 1 WHERE seid = ?";
             PreparedStatement ps_update = connection.prepareStatement(sql_update);
@@ -119,21 +124,21 @@ public class AttendanceDB extends DBContext {
             connection.commit();
         } catch (SQLException ex) {
             try {
-                if (connection != null) {
                     connection.rollback();
-                }
+                
             } catch (SQLException e) {
                 Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Failed to rollback transaction", e);
             }
             Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Error occurred during attendance taking", ex);
         } finally {
             try {
-                if (connection != null) {
+                
                     connection.setAutoCommit(true);
-                }
+                
             } catch (SQLException e) {
                 Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Failed to set auto-commit to true", e);
             }
         }
     }
+
 }

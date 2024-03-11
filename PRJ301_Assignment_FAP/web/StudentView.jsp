@@ -4,6 +4,7 @@
     Author     : DELL
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,9 +76,10 @@
             <input type="button" value="Logout" class="btn-campus" onclick="window.location.href ='login'"/>
         </header>
         <nav>
+            <c:set value="${sessionScope.account}" var="a"></c:set>
             <ul>
                 <li><a href="weeklyTable">Weekly timetable (Thời khóa biểu từng tuần)</a></li>
-                <li><a href="#">Attendance report (Báo cáo điểm danh)</a></li>
+                <li><a href="viewsubject?id=${a.username}&isTeacher=${a.isTeacher}">Attendance report (Báo cáo điểm danh)</a></li>
                 <li><a href="#">Mark Report (Báo cáo điểm)</a></li>
             </ul>
         </nav>
