@@ -5,7 +5,9 @@
 
 package Controller;
 
+import Authentication.BaseRequiredAuthentication;
 import DAO.SlotDB;
+import Entity.Account;
 import Entity.Session;
 import Entity.Slot;
 import Util.DateHelper;
@@ -25,16 +27,10 @@ import java.util.List;
  *
  * @author DELL
  */
-public class WeeklyTableController extends HttpServlet {
+public class WeeklyTableController extends BaseRequiredAuthentication {
    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         String user = request.getParameter("lid");
         String yearString = request.getParameter("year");
@@ -76,16 +72,16 @@ public class WeeklyTableController extends HttpServlet {
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response,  account);
     } 
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response,  account);
     }
 
     /** 

@@ -5,8 +5,10 @@
 
 package Controller;
 
+import Authentication.BaseRequiredAuthentication;
 import DAO.EnrollmentDB;
 import DAO.StudentDB;
+import Entity.Account;
 import Entity.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,14 +23,14 @@ import java.util.List;
  *
  * @author DELL
  */
-public class GroupStudentController extends HttpServlet {
+public class GroupStudentController extends BaseRequiredAuthentication {
    
     
     
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         String gid = request.getParameter("gid");
         EnrollmentDB db = new EnrollmentDB();
@@ -47,7 +49,7 @@ public class GroupStudentController extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         
     }

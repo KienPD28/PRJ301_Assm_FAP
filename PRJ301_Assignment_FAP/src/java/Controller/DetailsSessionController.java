@@ -5,7 +5,9 @@
 
 package Controller;
 
+import Authentication.BaseRequiredAuthentication;
 import DAO.SessionDB;
+import Entity.Account;
 import Entity.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,12 +21,12 @@ import java.util.List;
  *
  * @author DELL
  */
-public class DetailsSessionController extends HttpServlet {
+public class DetailsSessionController extends BaseRequiredAuthentication {
    
     
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         int seid = Integer.parseInt(request.getParameter("seid"));
         SessionDB db = new SessionDB();
@@ -37,7 +39,7 @@ public class DetailsSessionController extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         
     }

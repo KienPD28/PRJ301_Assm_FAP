@@ -16,6 +16,7 @@ import Entity.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,6 +56,13 @@ public class LoginController extends HttpServlet {
         Lecturers lec = lecturer.getLecturersById(username);
         Student stu = student.getStudentByID(username);
         if(a != null){
+            session.setAttribute("account", a);
+            Cookie c_user = new Cookie("username", username);
+            Cookie c_pass = new Cookie("password", password);
+            c_user.setMaxAge(60*30);
+            c_pass.setMaxAge(60*30);
+            response.addCookie(c_pass);
+            response.addCookie(c_user);
             if(a.isIsTeacher() == true){
                 session.setAttribute("account", a);
                 session.setAttribute("lec", lec);

@@ -5,8 +5,10 @@
 
 package Controller;
 
+import Authentication.BaseRequiredAuthentication;
 import DAO.AttendanceDB;
 import DAO.SessionDB;
+import Entity.Account;
 import Entity.Attendance;
 import Entity.Session;
 import Entity.Student;
@@ -23,13 +25,13 @@ import java.util.List;
  *
  * @author DELL
  */
-public class AttendanceController extends HttpServlet {
+public class AttendanceController extends BaseRequiredAuthentication {
    
     
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         int seid = Integer.parseInt(request.getParameter("id"));
         AttendanceDB db = new AttendanceDB();
@@ -40,7 +42,7 @@ public class AttendanceController extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, Account account)
     throws ServletException, IOException {
         int seid = Integer.parseInt(request.getParameter("id"));
         
