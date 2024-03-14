@@ -12,12 +12,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="stylesheet" href="./css/attendance.css"/>
+<!--        <script>
+            document.getElementById('markAllPresent').addEventListener('click', function () {
+                var presentRadioButtons = document.querySelectorAll('input[type="radio"][value="yes"]');
+                for (var i = 0; i < presentRadioButtons.length; i++) {
+                    presentRadioButtons[i].checked = true;
+                }
+            })
+        </script>-->
     </head>
     <body>
         <h1><span>FPT University Academic Portal</span></h1>
         <a href="weeklyTable">Time Table</a>
         <form action="attendance" method="POST">
             <input type="hidden" name="id" value="${param.id}" />
+            <input type="submit" name="auto" value="Present All"/>
             <table border="1px">
                 <tr class="header_row">
                     <td>Group</td>
@@ -51,7 +60,7 @@
 
                         </td>
                         <td>${at.dateTime}</td>
-                    </tr>    
+                    </tr> 
                 </c:forEach>
             </table>
             <input type="submit" value="Save"/>

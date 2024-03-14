@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="stylesheet" href="./css/tableweekly.css"/>
-
+        
     </head>
     <body>
         <h1><span>FPT University Academic Portal</span></h1>
@@ -55,8 +55,7 @@
                                 <li>
                                     <span class="content_link">
                                         <a href="LecturersView.jsp">Home</a>&nbsp;|&nbsp;
-                                        <b>View Schedule</b
-                                        <h2>Lecturers For ${sessionScope.lec.email} (${sessionScope.lec.lname})</h2>
+                                        <b>View Schedule&nbsp|&nbspLecturers For ${sessionScope.lec.email} (${sessionScope.lec.lname})</b>
                                     </span>
                                 </li>
                             </c:if>
@@ -66,8 +65,7 @@
                                 <li>
                                     <span class="content_link">
                                         <a href="StudentView.jsp">Home</a>&nbsp;|&nbsp;
-                                        <b>View Schedule</b
-                                        <h2>Student For ${sessionScope.stu.email} (${sessionScope.stu.name})</h2>
+                                        <b>View Schedule&nbsp|&nbspStudent For ${sessionScope.stu.email} (${sessionScope.stu.name})</b>
                                     </span>
                                 </li>
                             </c:if>
@@ -114,7 +112,7 @@
                                 <tr>
                                     <td>${sl.slname}</td>
                                     <c:forEach items="${requestScope.showDateInWeek}" var="i">
-                                    <!--Role for Lecturers-->
+                                        <!--Role for Lecturers-->
                                         <c:if test="${sessionScope.account.isTeacher == true}">
                                             <td>
                                                 <c:forEach items="${requestScope.listSessionByLid}" var="ses">
@@ -160,33 +158,43 @@
                                             <td>
                                                 <c:forEach items="${requestScope.listSessionByStuid}" var="ses">
                                                     <c:if test="${ses.date eq i.formatDate() and ses.slid.slid eq sl.slid}">
-                                                        <a href="details?seid=${ses.seid}">${ses.gid.subid.subid}</a><br/>
+                                                        <a href="details?seid=${ses.seid}">${ses.gid.subid.subid}</a> - <a class="Materials_content" href="#">View Materials</a><br/>
                                                         at
-                                                        ${ses.rid.rname} 
+                                                        ${ses.rid.rname} - <a class="Edunext_content"href="#">EduNext</a>
                                                         </br>
+                                                        <c:if test="${!ses.isTaken}">
+                                                            <font color="red">(not yet)</font></br>
+                                                            <div class="time_content">
+                                                                ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                            </div>
 
-                                                        <c:choose>
-                                                            <c:when test="${empty ses}">
-                                                                -
-                                                            </c:when>
-                                                            <c:otherwise>
+                                                        </c:if>
 
-                                                                <c:if test="${ses.isTaken != null and ses.isTaken eq false}">
-                                                                    <font color="red">(not yet)</font></br>
-                                                                    <div class="time_content">
-                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
-                                                                    </div>
+                                                        <c:forEach items="${requestScope.attendanceTable}" var="check">
 
-                                                                </c:if>   
+                                                            <c:if test="${ses.seid == check.seid.seid}">
+
                                                                 <c:if test="${ses.isTaken}">
-                                                                    <font color="green">(attended)</font></br>
-                                                                    <div class="time_content">
-                                                                        ${ses.tid.startTime}-${ses.tid.endTime} 
-                                                                    </div>
-                                                                </c:if> 
 
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                                    <c:if test="${!check.isPresent}">
+                                                                        <font color="red">(Absent)</font></br>
+                                                                        <div class="time_content">
+                                                                            ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                        </div>
+                                                                    </c:if>
+
+                                                                    <c:if test="${check.isPresent}">
+                                                                        <font color="green">(attended)</font></br>
+                                                                        <div class="time_content">
+                                                                            ${ses.tid.startTime}-${ses.tid.endTime} 
+                                                                        </div>
+                                                                    </c:if>
+
+                                                                </c:if>
+
+                                                            </c:if>
+
+                                                        </c:forEach>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>

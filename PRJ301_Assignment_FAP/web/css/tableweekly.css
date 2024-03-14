@@ -31,7 +31,7 @@ thead th:first-child{
 
 th {
     border-right: 1px solid #fff;
-   
+
     text-align: center;
     padding: 2px;
     text-transform: uppercase;
@@ -70,7 +70,7 @@ tbody th {
     display:flex;
     align-items:center;
     justify-content:center;
-    
+
 }
 
 select{
@@ -81,12 +81,12 @@ select{
     display: flex;
     list-style-type: none;
     border-block: inherit;
-    
+
 }
 
 .Navigation .content_link{
     text-decoration: none;
-    
+
     padding-left: 100px;
 }
 
@@ -110,4 +110,32 @@ listStudent_content{
     display: flex;
     justify-content: center;
     padding-left: 40px;
+}
+
+.Materials_content {
+    text-decoration: none;
+    background-color: orange;
+    color: white;
+    padding: 2px 1px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.Materials_content:hover {
+    background-color: #e69500;
+}
+
+.Edunext_content {
+    text-decoration: none;
+    background-color: #0056b3;
+    color: white;
+    padding: 2px 1px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.Edunext_content:hover {
+    background-color: #0056b3;
 }

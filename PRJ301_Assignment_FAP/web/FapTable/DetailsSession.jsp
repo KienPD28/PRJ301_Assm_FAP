@@ -36,43 +36,55 @@
                 <tr align="left">
                     <td>Instructor:</td>
                     <td>
-                        
+
                         <a href="detailsLecturers?lid=${ses.lid.lid}">${ses.lid.nickName}</a>
-                        
+
                     </td>
-                    
+
 
                 </tr>
                 <tr align="left">
                     <td>Course:</td>
                     <td>${ses.subid.subname}(${ses.subid.subid})</td>
                 </tr>
-                
+
                 <tr>
                     <td>Prerequisite:</td>
                     <td>${ses.subid.prerequisite}</td>
                 </tr>
-                
+
                 <tr>
                     <td>Credits:</td>
                     <td>${ses.subid.credits}</td>
                 </tr>
-                
+
                 <tr>
                     <td>Campus:</td>
                     <td>FU-HL</td>
                 </tr>
-                
+
                 <tr align="left">
                     <td>Attendance:</td>
+                    
                     <c:if test="${!ses.isTaken}">
                         <td style="color: black">Not yet</td>
                     </c:if>
-                    <c:if test="${ses.isTaken}">
-                        <td style="color: green">Attended</td>
-                    </c:if>
+                    
+                    <c:forEach items="${requestScope.attendance}" var="check">
+                        <c:if test="${ses.seid == check.seid.seid}">
+                            
+                            <c:if test="${ses.isTaken}">
+                                <c:if test="${check.isPresent}">
+                                    <td style="color: green">Attended</td>
+                                </c:if>
+                                <c:if test="${!check.isPresent}">
+                                    <td style="color: red">Absent</td>
+                                </c:if>
+                            </c:if>
+                                    
+                        </c:if>
+                    </c:forEach>
                 </tr>
-
             </tbody>
         </table>
     </body>

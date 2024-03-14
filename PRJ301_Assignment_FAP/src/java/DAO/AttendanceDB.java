@@ -22,10 +22,46 @@ public class AttendanceDB extends DBContext {
 
     public static void main(String[] args) {
         AttendanceDB db = new AttendanceDB();
-        List<Attendance> list = db.getAtteandanceBySeid(1);
-        for (Attendance s : list) {
-            System.out.println(s);
+        Attendance a = db.getStudentByAttendance(1, "HE176719");
+        System.out.println(a);
+    }
+
+    public Attendance getStudentByAttendance(int seid, String stuid) {
+        Attendance a = new Attendance();
+        StudentDB db = new StudentDB();
+        SessionDB sesDB = new SessionDB();
+        try {
+            String sql = "SELECT [aid]\n"
+                    + "      ,[seid]\n"
+                    + "      ,[stuid]\n"
+                    + "      ,[isPresent]\n"
+                    + "      ,[Description]\n"
+                    + "      ,[DateTime]\n"
+                    + "  FROM [MY_FAP_PROJECT].[dbo].[Attendance]\n"
+                    + "  where seid = ? and stuid = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, seid);
+            ps.setString(2, stuid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = db.getStudentByID(rs.getString("stuid"));
+                a.setStuid(student);
+
+                Session ses = sesDB.getSessionBySid(seid);
+                a.setSeid(ses);
+
+                a.setAid(rs.getInt("aid"));
+                if (a.getAid() != 0) {
+                    a.setIsPresent(rs.getBoolean("isPresent"));
+                    a.setDescription(rs.getString("Description"));
+                    a.setDateTime(rs.getTimestamp("DateTime"));
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return a;
     }
 
     public List<Attendance> getAtteandanceBySeid(int seid) {
@@ -79,7 +115,7 @@ public class AttendanceDB extends DBContext {
                 if (attendance.getAid() != 0) {
                     attendance.setDescription(rs.getString("Description"));
                     attendance.setIsPresent(rs.getBoolean("isPresent"));
-                    attendance.setDateTime(rs.getDate("DateTime"));
+                    attendance.setDateTime(rs.getTimestamp("DateTime"));
                 }
 
                 list.add(attendance);
@@ -90,10 +126,28 @@ public class AttendanceDB extends DBContext {
         return list;
     }
 
+    public Attendance takeAttendanceBySeidandStuid(int seid, String stuid) {
+        Attendance a = new Attendance();
+        try {
+            String sql = "SELECT [isPresent]\n"
+                    + "FROM [MY_FAP_PROJECT].[dbo].[Attendance]\n"
+                    + "WHERE [seid] = ? and [stuid] = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, seid);
+            ps.setString(2, stuid);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                a.setIsPresent(rs.getBoolean("isPresent"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return a;
+    }
+
     public void takeAttendancesforStudent(int seid, List<Attendance> list) {
         try {
             connection.setAutoCommit(false);
-
             String sql_delete = "DELETE FROM [dbo].[Attendance] WHERE seid = ?";
             PreparedStatement ps_delete = connection.prepareStatement(sql_delete);
             ps_delete.setInt(1, seid);
@@ -116,29 +170,29 @@ public class AttendanceDB extends DBContext {
                 ps_insert.executeUpdate();
             }
 
-            String sql_update = "UPDATE [dbo].[Session] SET [isTaken] = 1 WHERE seid = ?";
-            PreparedStatement ps_update = connection.prepareStatement(sql_update);
-            ps_update.setInt(1, seid);
-            ps_update.executeUpdate();
+            String sql_update = "UPDATE [dbo].[Session]\n"
+                    + "   SET [isTaken] = '1'\n"
+                    + " WHERE [seid] = ?";
+            PreparedStatement ps_insert = connection.prepareStatement(sql_update);
+            ps_insert.setInt(1, seid);
+            ps_insert.executeUpdate();
 
             connection.commit();
         } catch (SQLException ex) {
+            Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, null, ex);
             try {
-                    connection.rollback();
-                
-            } catch (SQLException e) {
-                Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Failed to rollback transaction", e);
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, null, ex1);
             }
-            Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Error occurred during attendance taking", ex);
         } finally {
             try {
-                
-                    connection.setAutoCommit(true);
-                
-            } catch (SQLException e) {
-                Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, "Failed to set auto-commit to true", e);
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDB.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }
 
 }
