@@ -69,85 +69,88 @@
 
 
         <c:if test="${sessionScope.isTeacher == false}">
-            <input type="button" value="Home" class="btn-campus" onclick="window.location.href = 'StudentView.jsp'"/>
-            <table>
-                <tr>
-                    <td>
-                        <table>
-                            <thead>
-                                <tr><th>Course</th></tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${requestScope.groupByStuid}" var="s2">
-                                    <tr>
-                                        <td><b><a href="view?id=${s2.gid.gid}&stuid=${sessionScope.stuids}">${s2.gid.subid.subname}(${s2.gid.subid.subid})</a>(${s2.gid.gname})</b></td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td>
-                        <table border="1px">
-                            <thead>
+            <input type="button" value="Home" class="btn-campus" onclick="window.location.href = 'StudentView.jsp'"/></br>
+        <tr>
+            <th>Attendance for ${sessionScope.stu.stuid} (${sessionScope.stu.name})</th>
+        </tr>
+        <table>
+            <tr>
+                <td>
+                    <table>
+                        <thead>
+                            <tr><th>Course</th></tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${requestScope.groupByStuid}" var="s2">
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Date</th>
-                                    <th>Slot</th>
-                                    <th>Room</th>
-                                    <th>Lecturers</th>
-                                    <th>Group Name</th>
-                                    <th>Attendance status</th>
+                                    <td><b><a href="view?id=${s2.gid.gid}&stuid=${sessionScope.stuids}">${s2.gid.subid.subname}(${s2.gid.subid.subid})</a>(${s2.gid.gname})</b></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <c:set var="totalSessions" value="20" />
-                                <c:set var="totalAbsents" value="0" />
-                                <c:forEach items="${requestScope.attendanceSession}" var="s3" varStatus="idex">
-                                    <tr>
-                                        <td>${idex.index+1}</td>
-                                        <td>${s3.date}</td>
-                                        <td>${s3.slid.slid} (${s3.tid.startTime}-${s3.tid.endTime})</td>
-                                        <td>${s3.rid.rname}</td>
-                                        <td>${s3.lid.nickName}</td>
-                                        <td>${s3.gid.gname}</td>
-                                        <td>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table border="1px">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>Slot</th>
+                                <th>Room</th>
+                                <th>Lecturers</th>
+                                <th>Group Name</th>
+                                <th>Attendance status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:set var="totalSessions" value="20" />
+                            <c:set var="totalAbsents" value="0" />
+                            <c:forEach items="${requestScope.attendanceSession}" var="s3" varStatus="idex">
+                                <tr>
+                                    <td>${idex.index+1}</td>
+                                    <td>${s3.date}</td>
+                                    <td>${s3.slid.slid} (${s3.tid.startTime}-${s3.tid.endTime})</td>
+                                    <td>${s3.rid.rname}</td>
+                                    <td>${s3.lid.nickName}</td>
+                                    <td>${s3.gid.gname}</td>
+                                    <td>
 
-                                            <c:if test="${!s3.isTaken}">
-                                                Not yet
-                                            </c:if>
+                                        <c:if test="${!s3.isTaken}">
+                                            Not yet
+                                        </c:if>
 
-                                            <c:forEach items="${requestScope.attendance}" var="check">
+                                        <c:forEach items="${requestScope.attendance}" var="check">
 
-                                                <c:if test="${s3.seid == check.seid.seid}">
+                                            <c:if test="${s3.seid == check.seid.seid}">
 
-                                                    <c:if test="${!check.isPresent}">
-                                                        <c:if test="${s3.isTaken}">
-                                                            Absent
-                                                            <c:set var="totalAbsents" value="${totalAbsents + 1}" />
-                                                        </c:if> 
-                                                    </c:if>
-
-                                                    <c:if test="${check.isPresent}">
-                                                        Present
-                                                    </c:if>
+                                                <c:if test="${!check.isPresent}">
+                                                    <c:if test="${s3.isTaken}">
+                                                        Absent
+                                                        <c:set var="totalAbsents" value="${totalAbsents + 1}" />
+                                                    </c:if> 
                                                 </c:if>
 
-                                            </c:forEach>
+                                                <c:if test="${check.isPresent}">
+                                                    Present
+                                                </c:if>
+                                            </c:if>
 
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                        <c:set var="absenceRate" value="${totalAbsents / totalSessions * 100}" />
-                        <p style="font-weight: bold">ABSENT: ${absenceRate}% ABSENT SO FAR (${totalAbsents} ABSENT ON ${totalSessions} TOTAL) </p>
-                        <c:if test="${absenceRate > 20}">
-                            <p style="color: red">Warning: Absence rate exceeds 20%!</p>
-                        </c:if>
-                    </td>
-                </tr>
-            </table>
-        </c:if>
-    </body>
+                                        </c:forEach>
+
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <c:set var="absenceRate" value="${totalAbsents / totalSessions * 100}" />
+                    <p style="font-weight: bold">ABSENT: ${absenceRate}% ABSENT SO FAR (${totalAbsents} ABSENT ON ${totalSessions} TOTAL) </p>
+                    <c:if test="${absenceRate > 20}">
+                        <p style="color: red">Warning: Absence rate exceeds 20%!</p>
+                    </c:if>
+                </td>
+            </tr>
+        </table>
+    </c:if>
+</body>
 </html>
 
