@@ -9,47 +9,44 @@ package Entity;
  * @author DELL
  */
 public class Grade {
-    private int Grid;
-    private Exam Eid;
-    private float Score;
+    private int grid;
+    private Exam eid;
+    private float score;
     private Student stuid;
-    private Subject subid;
-    private Group gid;
+    
 
     public Grade() {
     }
 
-    public Grade(int Grid, Exam Eid, float Score, Student stuid, Subject subid, Group gid) {
-        this.Grid = Grid;
-        this.Eid = Eid;
-        this.Score = Score;
+    public Grade(int grid, Exam eid, float score, Student stuid) {
+        this.grid = grid;
+        this.eid = eid;
+        this.score = score;
         this.stuid = stuid;
-        this.subid = subid;
-        this.gid = gid;
     }
 
     public int getGrid() {
-        return Grid;
+        return grid;
     }
 
-    public void setGrid(int Grid) {
-        this.Grid = Grid;
+    public void setGrid(int grid) {
+        this.grid = grid;
     }
 
     public Exam getEid() {
-        return Eid;
+        return eid;
     }
 
-    public void setEid(Exam Eid) {
-        this.Eid = Eid;
+    public void setEid(Exam eid) {
+        this.eid = eid;
     }
 
     public float getScore() {
-        return Score;
+        return score;
     }
 
-    public void setScore(float Score) {
-        this.Score = Score;
+    public void setScore(float score) {
+        this.score = score;
     }
 
     public Student getStuid() {
@@ -60,20 +57,9 @@ public class Grade {
         this.stuid = stuid;
     }
 
-    public Subject getSubid() {
-        return subid;
-    }
-
-    public void setSubid(Subject subid) {
-        this.subid = subid;
-    }
-
-    public Group getGid() {
-        return gid;
-    }
-
-    public void setGid(Group gid) {
-        this.gid = gid;
+    @Override
+    public String toString() {
+        return "Grade{" + "grid=" + grid + ", Eid=" + eid + ", Score=" + score + ", stuid=" + stuid + '}';
     }
 
     

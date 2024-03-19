@@ -11,18 +11,18 @@ import java.sql.Date;
  */
 public class Exam {
     private String eid;
-    private Assignment Assid;
-    private Date DateStart;
-    private Date EndDate;
-
+    private Assignment assid;
+    private Date dateStart;
+    private Date endDate;
+    
     public Exam() {
     }
     
-    public Exam(String eid, Assignment Assid, Date DateStart, Date EndDate) {
+    public Exam(String eid, Assignment assid, Date dateStart, Date endDate) {
         this.eid = eid;
-        this.Assid = Assid;
-        this.DateStart = DateStart;
-        this.EndDate = EndDate;
+        this.assid = assid;
+        this.dateStart = dateStart;
+        this.endDate = endDate;
     }
 
     public String getEid() {
@@ -34,28 +34,38 @@ public class Exam {
     }
 
     public Assignment getAssid() {
-        return Assid;
+        return assid;
     }
 
-    public void setAssid(Assignment Assid) {
-        this.Assid = Assid;
+    public void setAssid(Assignment assid) {
+        this.assid = assid;
     }
 
     public Date getDateStart() {
-        return DateStart;
+        return dateStart;
     }
 
-    public void setDateStart(Date DateStart) {
-        this.DateStart = DateStart;
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
     public Date getEndDate() {
-        return EndDate;
+        return endDate;
     }
 
-    public void setEndDate(Date EndDate) {
-        this.EndDate = EndDate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" + "eid=" + eid + ", assid=" + assid + ", dateStart=" + dateStart + ", endDate=" + endDate + '}';
+    }
+    
+    
+
+    
+    
     
     
 
